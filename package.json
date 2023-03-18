@@ -1,0 +1,26 @@
+{
+  "name": "sdlc-timerapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app/server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://aravindhan_palanisamy@bitbucket.org/aravindhan_palanisamy/sdlc-timerapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://bitbucket.org/aravindhan_palanisamy/sdlc-timerapp/issues"
+  },
+  "homepage": "https://bitbucket.org/aravindhan_palanisamy/sdlc-timerapp#readme",
+  "dependencies": {
+    "csv-parse": "^5.3.6",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21"
+  }
+}

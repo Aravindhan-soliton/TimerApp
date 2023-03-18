@@ -1,20 +1,85 @@
 <html>
     <head>
+        <link rel="stylesheet"
+		href="../styles/main.css">
         <title>
             Timer Application
         </title>
     </head>
-    <body onload='loadlogin("main-template","task.html")'>
-        <div>
-            <div>logo</div>
-            <div>profile</div>
+    <body>
+        <div class="header">
+            <div class="logo">
+            </div>
+            <div class="header-right">
+            <div class="profile-div">
+                <div class="Profile"></div>
+                <p id="logged-username">User Name</p> 
+            </div>
+            <p>Import</p>
+            <p>Export</p>
+            <p id="logout-click">Log out</p>
+            </div>
         </div>
         <div>
-            <div><a href='#' onclick='loadlogin("main-template","log.html")'> log task </a> </div>
-            <div><a href='#' onclick='loadlogin("main-template","task.html")'> log time </a> </div>
+            <div class="add-task-div">
+                <button id="add-task-button" class="add-task-button">Add New Task</button>
+            </div>
+            <div id="add-task-container" class="add-task-modal">
+                <div class="add-task-modal-data">
+                    <h3 class="pop-head">Add Task</h3>
+                    <input id="task-name-form" type="text" placeholder="What are you working on?">
+                    <div>
+                    <button id="register-task-button" class="clkbtn ok">Add</button>
+                    <button id="cancel-task-button" class="clkbtn cancel">Cancel</button>
+                </div>
+            </div>
+            </div>
+            <div id="edit-task-container" class="edit-task-modal">
+                <div  class="add-task-modal-data">
+                    <h3 class="pop-head" >Edit Task</h3>
+                    <input id="edit-task-name-form" type="text" placeholder="New name...">
+                    <div>
+                    <button id="edit-task-button" class="clkbtn ok">Update</button>
+                    <button id="cancel-edit-task-button" class="clkbtn cancel">Cancel</button>
+                </div>
+                
+                </div>
+            </div>
+            <div class="log-div">
+            <div class="current-task-div"> 
+                <h3>Current Task</h3>
+                <div id="current-log">
+                    <div class="no-log" id="no-log">
+                        <h4>No Current Task Running.....</h4>
+                        <button class="add-task-current-log" id="add-task-current-log" onclick="addTask()">Add new task </button>
+                    </div>
+                </div>
+            </div>
+            <div class="log-task-div">
+                <h3>Logs</h3>
+                <div id="log-list">
+                <div id="log-container" class="log-container">
+                    <div id="log-item" class="log-task"> 
+                        <div class="log-task-name">
+                            <h4 id="task-name">Task #1</h4>
+                        </div>
+                        <div class="log-time">
+                            <h5 name="00:00" id="time">Time</h5> 
+                            <button class="start" id="start" name="1" onclick="runTaskData(id)"></button>
+                        </div>
+                        <div class="log-task-icons">
+                            <button  class="edit" id="edit" onclick="editTaskdata(id)" > 
+                            </button>
+                            <button  class="delete" id="delete" onclick="deleteTaskdata(id)">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
         </div>
-        <div id='main-template' class='main-template'>
         </div>
         <script src="/app/load.js"></script>
+        <script src="/app/mainDashBoard.js"></script>
     </body>
 </html>
