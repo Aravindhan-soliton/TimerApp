@@ -48,7 +48,6 @@ const signupValidation = async () => {
     const Emailres = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.exec(signupEmail.value);
     if(!!UNres === true){
         if(!!Emailres === true){
-            console.log(signupPassword.value);
             if(signupPassword.value.length>2){
                 valid=true;
             }

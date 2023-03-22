@@ -100,6 +100,10 @@ app.get("/logOutDataUpdate", async function (req, res) {
   }
 });
 app.get("/loadNewFile", async function (req, res) {
+  if(!fs.existsSync(req.query.file)) {
+    res.json({val:"no"});
+  }
+  else{
   fs.createReadStream(req.query.file)
     .pipe(
       parse({
@@ -109,7 +113,6 @@ app.get("/loadNewFile", async function (req, res) {
       })
     )
     .on("data", function (row) {
-      console.log(`${row.TaskName.trim()} ,${row.time.trim()} ,${row.run.trim()}`);
       user_csv = `\n${row.TaskName.trim()} ,${row.time.trim()} ,${row.run.trim()}`; 
       data.push(user_csv);
       appendFileSync(
@@ -117,13 +120,14 @@ app.get("/loadNewFile", async function (req, res) {
         user_csv
       );
     })
-    .on("error", function (error) {}) 
+    .on("error", function (error) {
+      res.json({val:"no"});
+    }) 
     .on("end", function () {
       userFileRead();
-      console.log(tasks);
-      res.send("ok");
+      res.json({val:"yes"});
     });
-
+  }
 });
 userFileRead();
 
@@ -131,4 +135,4 @@ const server = http.createServer(app);
 const port = 8000;
 server.listen(port);
 
-console.log(`Server running at http://127.0.0.1:${port}/`);
+console.log(`Server running at http://127.0.0.1:${port}/`);  

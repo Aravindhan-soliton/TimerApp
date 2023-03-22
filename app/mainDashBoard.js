@@ -63,12 +63,15 @@ function importTaskName() {
 async function importTask() {
   clearInterval(TaskInterval);
   clearInterval(Interval);
-  await loadNewFile(importName.value);
-  taskList = await loadTask();
-  await taskLogLoad();
-  TaskInterval = setInterval(TaskUpadte, 1000);
-  importName.value = "";
-  importTaskClick.setAttribute("style", "display:none");
+  if ((await loadNewFile(importName.value)) == "yes") {
+    taskList = await loadTask();
+    await taskLogLoad();
+    TaskInterval = setInterval(TaskUpadte, 1000);
+    importName.value = "";
+    importTaskClick.setAttribute("style", "display:none");
+  } else {
+    confirm("file not found!!!...");
+  }
 }
 function exportTask() {
   download_csv_file();
@@ -101,7 +104,6 @@ async function logOutUser() {
   for (let task of taskList) {
     list.push(JSON.stringify(task));
   }
-  console.log(list);
   await logOutDataUpdate(list);
   window.location = parent.window.document.location.origin;
 }
@@ -286,7 +288,6 @@ async function currentTaskAdd() {
   for (let task of taskList) {
     list.push(JSON.stringify(task));
   }
-  console.log(list);
   await logOutDataUpdate(list);
   let index = 0;
   for (let task in taskList) {
@@ -335,9 +336,7 @@ function download_csv_file() {
       "," +
       taskList[task].time +
       "\n";
-    console.log(task);
   }
-  console.log(csv);
   //display the created CSV data on the web browser
   document.write(csv);
   var hiddenElement = document.createElement("a");

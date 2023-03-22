@@ -75,7 +75,6 @@ const loadTask = async () => {
   await fetch("/loadTask?name=" + userName, requestOptions1)
     .then((response) => response.json())
     .then((result) => {
-      console.log(result);
       taskList = result;
     })
     .catch((error) => {
@@ -94,12 +93,15 @@ var requestOptions2 = {
   redirect: "follow",
 };
 const logOutDataUpdate = async (taskList) => {
-  await fetch("/logOutDataUpdate?list=" + taskList, requestOptions2).catch(
-    (error) => {
+  await fetch("/logOutDataUpdate?list=" + taskList, requestOptions2)
+    .then((response) => response)
+    .then((result) => {
+      taskList = result;
+    })
+    .catch((error) => {
       if (confirm("Error while fetching data, log out ", error) == true)
         location.reload();
-    }
-  );
+    });
   return taskList;
 };
 
@@ -113,11 +115,14 @@ const TaskUpadteToServer = async (taskList) => {
   return;
 };
 const loadNewFile = async (file) => {
-  await fetch("/loadNewFile?file=" + file, requestOptions2).catch(
-    (error) => {
+  await fetch("/loadNewFile?file=" + file, requestOptions2)
+    .then((response) => response.json())
+    .then((result) => {
+      val = result.val;
+    })
+    .catch((error) => {
       if (confirm("Error while fetching data, log out ", error) == true)
         location.reload();
-    }
-  );
-  return;
+    });
+  return val;
 };
