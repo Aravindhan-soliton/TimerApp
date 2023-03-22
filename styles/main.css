@@ -3,9 +3,9 @@ html * {
   }
 .logo{
     background-image: url("../assets/logo.png");
-    width: 250px;
-    height: 150px;
-    background-size: contain;
+    width: 310px;
+    height: 190px;
+    background-size:auto;
 }
 .header{
     display: flex;

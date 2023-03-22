@@ -94,15 +94,30 @@ var requestOptions2 = {
   redirect: "follow",
 };
 const logOutDataUpdate = async (taskList) => {
-  await fetch("/logOutDataUpdate?list=" + taskList, requestOptions2)
-    .catch((error) => {
-      if (
-        confirm(
-          "Error while fetching data, log out ",
-          error
-        ) == true
-      )
+  await fetch("/logOutDataUpdate?list=" + taskList, requestOptions2).catch(
+    (error) => {
+      if (confirm("Error while fetching data, log out ", error) == true)
         location.reload();
-    });
+    }
+  );
   return taskList;
+};
+
+const TaskUpadteToServer = async (taskList) => {
+  await fetch("/logOutDataUpdate?list=" + taskList, requestOptions2).catch(
+    (error) => {
+      if (confirm("Error while fetching data, log out ", error) == true)
+        location.reload();
+    }
+  );
+  return;
+};
+const loadNewFile = async (file) => {
+  await fetch("/loadNewFile?file=" + file, requestOptions2).catch(
+    (error) => {
+      if (confirm("Error while fetching data, log out ", error) == true)
+        location.reload();
+    }
+  );
+  return;
 };

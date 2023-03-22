@@ -76,7 +76,6 @@ const signupValidation = async () => {
     }
 }
 }
-
 function returnUserName(){
     return UserName;
 }

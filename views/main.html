@@ -15,8 +15,8 @@
                 <div class="Profile"></div>
                 <p id="logged-username">User Name</p> 
             </div>
-            <p>Import</p>
-            <p>Export</p>
+            <p id = "import-task-button">Import</p>
+            <p id = "export-task-button">Export</p>
             <p id="logout-click">Log out</p>
             </div>
         </div>
@@ -42,8 +42,24 @@
                     <button id="edit-task-button" class="clkbtn ok">Update</button>
                     <button id="cancel-edit-task-button" class="clkbtn cancel">Cancel</button>
                 </div>
-                
                 </div>
+            </div>
+            <div id="export-task-container" class="edit-task-modal">
+                <div  class="add-task-modal-data">
+                    <h3 class="pop-head" >Export Data</h3>
+                    <button id="export-task-window-button" class="clkbtn ok">Export</button>
+                    <button id="cancel-export-task-button" class="clkbtn cancel">Cancel</button>
+                </div>
+                </div>
+            <div id="import-task-container" class="edit-task-modal">
+                <div  class="add-task-modal-data">
+                    <h3 class="pop-head" >Import Data</h3>
+                    <input id="import-file-name-form" type="text" placeholder="File Path...">
+                    <div>
+                    <button id="import-task-window-button" class="clkbtn ok">Import</button>
+                    <button id="cancel-import-task-button" class="clkbtn cancel">Cancel</button>
+                </div>
+            </div>
             </div>
             <div class="log-div">
             <div class="current-task-div"> 
