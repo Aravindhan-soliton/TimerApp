@@ -102,6 +102,7 @@ body {
 	height: 60px;
 	width: 150px;
 	border-radius: 50px;
+	margin-left: -90px;
 	background-color:#FFB4AC;
 	font-size: 22px;
 	border: none;

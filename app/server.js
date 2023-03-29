@@ -4,9 +4,9 @@ const http = require("http");
 const path = require("path");
 const { parse } = require("csv-parse");
 var express = require("express");
-var app = express();
+var app = express(); 
 const logUser = [];
-app.use(express.json());
+app.use(express.json()); 
 app.get("/", function (req, res) {
   if (req.url.endsWith("/")) {
     app.use(express.static("./"));
