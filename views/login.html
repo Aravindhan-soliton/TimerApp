@@ -1,0 +1,47 @@
+<html>
+<head>
+	<title>Timer App</title>
+	<link rel="stylesheet"
+		href="../styles/login.css">
+</head>
+<body>
+	<div class="container">
+		<div class="slider"></div>
+		<div class="btn">
+			<button class="login">Login</button>
+			<button class="signup">Signup</button>
+		</div>
+		<div class="form-section">
+			<div class="login-box">
+				<input id="username-login" type="username"
+					class="email ele"
+					placeholder="username">
+				<input id="password-login" type="password"
+					class="password ele"
+					placeholder="password">
+				<button id="login-button" class="clkbtn">Login</button>
+				<p id="login-error" class="login-error"></p>
+			</div>
+			<div class="signup-box">
+				<input id="username-signup" type="text"
+					class="name ele"
+					placeholder="Username">
+				<input id="email-signup" type="email"
+					class="email ele"
+					placeholder="email Id">
+				<input id="password-signup" type="password"
+					class="password ele"
+					placeholder="password">
+				<input id="cPassword-signup" type="password"
+					class="password ele"
+					placeholder="Confirm password">
+				<button id="signup-button" class="clkbtn">Signup</button>
+				<p id="signup-error" class="signup-error"></p>
+			</div>
+		</div>
+	</div>
+	<script src="../app/load.js" ></script>
+	<script src="../app/logInScript.js"></script>
+</body>
+
+</html>
