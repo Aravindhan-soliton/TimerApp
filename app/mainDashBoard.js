@@ -3,14 +3,23 @@ let currentLogContainer = document.querySelector("#no-log");
 let taskContainer = document.querySelector("#log-container");
 let addTaskClick = document.getElementById("add-task-container");
 let editTaskClick = document.getElementById("edit-task-container");
+let viewTaskClick = document.getElementById("view-task-container");
 let exportTaskClick = document.getElementById("export-task-container");
 let importTaskClick = document.getElementById("import-task-container");
 let editName = document.getElementById("edit-task-name-form");
 let taskName = document.getElementById("task-name-form");
 let importName = document.getElementById("import-file-name-form");
+let findLog = document.getElementById("task-name-form");
+let viewName = document.getElementById("view-name");
+let viewTime = document.getElementById("view-time");
+let viewStop = document.getElementById("view-stop");
+let viewStart = document.getElementById("view-start");
 let taskList = [];
+let date;
 let Interval;
 let TaskInterval;
+let currentdate;
+let datetime;
 document
   .getElementById("logout-click")
   .addEventListener("click", () => logout());
@@ -50,27 +59,50 @@ document
 document
   .getElementById("cancel-import-task-button")
   .addEventListener("click", () => cancelTask());
+document
+  .getElementById("cancel-view-task-button")
+  .addEventListener("click", () => cancelTask());
 function addTask() {
   taskName.value = "";
-  addTaskClick.setAttribute("style", "display:flex");
+  addTaskClick.setAttribute("style", "display:flex; justify-content:center");
 }
 function exportTaskName() {
-  exportTaskClick.setAttribute("style", "display:flex");
+  exportTaskClick.setAttribute("style", "display:flex; justify-content:center");
 }
 function importTaskName() {
-  importTaskClick.setAttribute("style", "display:flex");
+  importTaskClick.setAttribute("style", "display:flex; justify-content:center");
+}
+function viewTaskdata(id) {
+  let viewId = id.slice(4);
+  if (viewId === "q") {
+    let index = 0;
+    for (let task of taskList) {
+      if (task.run === "run") {
+        viewId = index;
+      }
+      index++;
+    }
+  }
+
+  viewName.innerText = taskList[viewId].TaskName;
+  viewTime.innerText = taskList[viewId].time;
+  viewStart.innerText = taskList[viewId].start_time;
+  viewStop.innerText = taskList[viewId].stop_time;
+  viewTaskClick.setAttribute("style", "display:flex; justify-content:center");
 }
 async function importTask() {
-  clearInterval(TaskInterval);
-  clearInterval(Interval);
-  if ((await loadNewFile(importName.value)) == "yes") {
+  if (importName.value.slice(-4) === ".csv") {
+    clearInterval(TaskInterval);
+    clearInterval(Interval);
+    await loadNewFile(importName.value);
     taskList = await loadTask();
     await taskLogLoad();
     TaskInterval = setInterval(TaskUpadte, 1000);
     importName.value = "";
     importTaskClick.setAttribute("style", "display:none");
-  } else {
-    confirm("file not found!!!...");
+  }
+  else{
+    confirm("CSV file only supported...");
   }
 }
 function exportTask() {
@@ -79,6 +111,7 @@ function exportTask() {
 function cancelTask() {
   addTaskClick.setAttribute("style", "display:none");
   editTaskClick.setAttribute("style", "display:none");
+  viewTaskClick.setAttribute("style", "display:none");
   exportTaskClick.setAttribute("style", "display:none");
   importTaskClick.setAttribute("style", "display:none");
 }
@@ -120,12 +153,31 @@ const registerTask = async () => {
 };
 const newTask = async () => {
   timeUpdate();
-  await logAdd(taskName.value, "00:00", "run");
+  currentdate = new Date();
+  datetime =
+    currentdate.getDate() +
+    "/" +
+    (currentdate.getMonth() + 1) +
+    "/" +
+    currentdate.getFullYear() +
+    "  " +
+    currentdate.getHours() +
+    ":" +
+    currentdate.getMinutes() +
+    ":" +
+    currentdate.getSeconds();
+  await logAdd(taskName.value, "00:00", "run", datetime, "time");
   await taskLogLoad();
 };
-const logAdd = async (name, time) => {
+const logAdd = async (name, time, run, start, stop) => {
   stopAll();
-  task = { TaskName: name, time: "00:00", run: "run" };
+  task = {
+    TaskName: name,
+    time: "00:00",
+    run: "run",
+    start_time: start,
+    stop_time: stop,
+  };
   taskList.push(task);
 };
 const deleteTaskdata = async (id) => {
@@ -170,7 +222,7 @@ const editTaskdata = async (id) => {
     }
   }
   editName.value = "";
-  editTaskClick.setAttribute("style", "display:flex");
+  editTaskClick.setAttribute("style", "display:flex; justify-content:center");
 };
 function editTask(id, name) {
   index = 0;
@@ -245,6 +297,20 @@ function startTimer(id) {
   document.getElementById(timeId).innerText = updateTime;
   document.getElementById("timeq").innerText = updateTime;
   document.getElementById(timeId).name = updateTime;
+  currentdate = new Date();
+  datetime =
+    currentdate.getDate() +
+    "/" +
+    (currentdate.getMonth() + 1) +
+    "/" +
+    currentdate.getFullYear() +
+    "  " +
+    currentdate.getHours() +
+    ":" +
+    currentdate.getMinutes() +
+    ":" +
+    currentdate.getSeconds();
+  taskList[id].stop_time = datetime;
   timeUpdate();
 }
 function timeUpdate() {
@@ -266,6 +332,7 @@ const taskLogLoad = async (newtask = true) => {
     clone.querySelector("#start").id = "start" + index;
     clone.querySelector("#time").id = "time" + index;
     clone.querySelector("#edit").id = "edit" + index;
+    clone.querySelector("#view").id = "view" + index;
     clone.querySelector("#delete").id = "delete" + index;
     document.getElementById("log-list").appendChild(clone);
     document.getElementById("time" + index).name = task.time;
@@ -303,6 +370,7 @@ async function currentTaskAdd() {
       currentClone.querySelector("#start").id = "start" + "q";
       currentClone.querySelector("#time").id = "time" + "q";
       currentClone.querySelector("#edit").id = "edit" + "q";
+      currentClone.querySelector("#view").id = "view" + "q";
       currentClone.querySelector("#delete").id = "delete" + "q";
       document.getElementById("current-log").appendChild(currentClone);
       addTaskClick.setAttribute("style", "display:none");
@@ -323,26 +391,25 @@ async function TaskUpadte() {
   await TaskUpadteToServer(list);
 }
 
-//create a user-defined function to download CSV file
 function download_csv_file() {
-  //define the heading for each row of the data
-  var csv = "TaskName, time, run\n";
-  //merge the data with CSV
+  var csv = "TaskName, time, run, start_time, stop_time\n";
   for (let task in taskList) {
     csv +=
       taskList[task].TaskName +
       "," +
       taskList[task].time +
       "," +
-      taskList[task].time +
+      taskList[task].run +
+      "," +
+      taskList[task].start_time +
+      "," +
+      taskList[task].stop_time +
       "\n";
   }
-  //display the created CSV data on the web browser
   document.write(csv);
   var hiddenElement = document.createElement("a");
   hiddenElement.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
   hiddenElement.target = "_blank";
-  //provide the name for the CSV file to be downloaded
   hiddenElement.download = `${logUserName.innerText}.csv`;
   hiddenElement.click();
   window.location = parent.window.document.location;

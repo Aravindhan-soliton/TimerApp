@@ -15,14 +15,15 @@
                 <div class="Profile"></div>
                 <p id="logged-username">User Name</p> 
             </div>
-            <p class ="import" id = "import-task-button">Import</p>
-            <p class ="export" id = "export-task-button">Export</p>
-            <p class ="logout" id="logout-click">Log out</p>
+            <p id = "import-task-button" class="head-bar">Import</p>
+            <p id = "export-task-button" class="head-bar">Export</p>
+            <p id="logout-click" class="head-bar">Log out</p>
             </div>
         </div>
         <div>
             <div class="add-task-div">
                 <button id="add-task-button" class="add-task-button">Add New Task</button>
+                <!-- <input id="find-task-name-form" type="text" placeholder="Find Task.."> -->
             </div>
             <div id="add-task-container" class="add-task-modal">
                 <div class="add-task-modal-data">
@@ -41,6 +42,22 @@
                     <div>
                     <button id="edit-task-button" class="clkbtn ok">Update</button>
                     <button id="cancel-edit-task-button" class="clkbtn cancel">Cancel</button>
+                </div>
+                </div>
+            </div>
+            <div id="view-task-container" class="view-task-modal">
+                <div  class="view-task-modal-data">
+                    <h3 class="pop-head" >View Task</h3>
+                    <h4>Task Name</h4>
+                    <p id="view-name">asd</p>
+                    <h5>Start Time</h5>
+                    <p id="view-start">asd</p>
+                    <h5>Last Worked Time</h5>
+                    <p id="view-stop">asd</p>
+                    <h6>Time Worked</h6>
+                    <p id="view-time">asd</p>
+                    <div>
+                    <button id="cancel-view-task-button" class="clkbtn cancel">Close</button>
                 </div>
                 </div>
             </div>
@@ -64,7 +81,7 @@
             <div class="log-div">
             <div class="current-task-div"> 
                 <h3>Current Task</h3>
-                <div id="current-log">
+                <div id="current-log" class="current-log"> 
                     <div class="no-log" id="no-log">
                         <h4>No Current Task Running.....</h4>
                         <button class="add-task-current-log" id="add-task-current-log" onclick="addTask()">Add new task </button>
@@ -84,6 +101,8 @@
                             <button class="start" id="start" name="1" onclick="runTaskData(id)"></button>
                         </div>
                         <div class="log-task-icons">
+                            <button  class="view" id="view" onclick="viewTaskdata(id)" > 
+                            </button>
                             <button  class="edit" id="edit" onclick="editTaskdata(id)" > 
                             </button>
                             <button  class="delete" id="delete" onclick="deleteTaskdata(id)">

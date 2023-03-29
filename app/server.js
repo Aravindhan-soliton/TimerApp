@@ -36,7 +36,7 @@ app.post("/auth", async function (req, res) {
 app.post("/signup", function (req, res) {
   logUser[0] = req.body.userName;
   const csv = `\n${req.body.userName}, ${req.body.email}, ${req.body.password}`;
-  const user_csv = `TaskName, time, run`;
+  const user_csv = `TaskName, time, run, start_time, stop_time `;
   try {
     appendFileSync(path.join(__dirname, "../assets/user.csv"), csv);
     appendFileSync(
@@ -86,13 +86,13 @@ app.get("/loadTask", async function (req, res) {
 app.get("/logOutDataUpdate", async function (req, res) {
   writeData = JSON.parse("[" + req.query.list + "]");
   res.send();
-  const csv = `TaskName, time, run`;
+  const csv = `TaskName, time, run, start_time, stop_time`;
   fs.writeFileSync(
     path.join(__dirname, `../assets/users/${logUser[0]}.csv`),
     csv
   );
   for (let task of writeData) {
-    user_csv = `\n${task.TaskName}, ${task.time}, no`;
+    user_csv = `\n${task.TaskName}, ${task.time}, no, ${task.start_time}, ${task.stop_time}`;
     appendFileSync(
       path.join(__dirname, `../assets/users/${logUser[0]}.csv`),
       user_csv
@@ -100,32 +100,40 @@ app.get("/logOutDataUpdate", async function (req, res) {
   }
 });
 app.get("/loadNewFile", async function (req, res) {
-  if(!fs.existsSync(req.query.file)) {
-    res.json({val:"no"});
-  }
-  else{
-  fs.createReadStream(req.query.file)
-    .pipe(
-      parse({
-        delimiter: ",",
-        columns: true,
-        ltrim: true,
+  if (fs.existsSync(req.query.file)) {
+    fs.createReadStream(req.query.file)
+      .pipe(
+        parse({
+          delimiter: ",",
+          columns: true,
+          ltrim: true,
+        })
+      )
+      .on("data", function (row) {
+        console.log(
+          `${row.TaskName.trim()} ,${row.time.trim()} ,${row.run.trim()}, ${row.start_time.trim()}, ${row.stop_time.trim()}`
+        );
+        user_csv = `\n${row.TaskName.trim()} ,${row.time.trim()} ,${row.run.trim()}, ${row.start_time.trim()}, ${row.stop_time.trim()}`;
+        data.push(user_csv);
+        appendFileSync(
+          path.join(__dirname, `../assets/users/${logUser[0]}.csv`),
+          user_csv
+        );
       })
-    )
-    .on("data", function (row) {
-      user_csv = `\n${row.TaskName.trim()} ,${row.time.trim()} ,${row.run.trim()}`; 
-      data.push(user_csv);
-      appendFileSync(
-        path.join(__dirname, `../assets/users/${logUser[0]}.csv`),
-        user_csv
-      );
-    })
-    .on("error", function (error) {
-      res.json({val:"no"});
-    }) 
-    .on("end", function () {
-      userFileRead();
-      res.json({val:"yes"});
+      .on("error", function (error) {
+        res.send("no");
+        return;
+      })
+      .on("end", function () {
+        userFileRead();
+        console.log(tasks);
+      });
+      res.status(200).json({
+        data: "success",
+      });
+  } else {
+    res.status(404).json({
+      data: "Fail",
     });
   }
 });
@@ -135,4 +143,4 @@ const server = http.createServer(app);
 const port = 8000;
 server.listen(port);
 
-console.log(`Server running at http://127.0.0.1:${port}/`);  
+console.log(`Server running at http://127.0.0.1:${port}/`);

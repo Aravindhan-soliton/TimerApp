@@ -20,6 +20,9 @@ html * {
 .header-right{
     display: flex;
 }
+.head-bar{
+    cursor: pointer;
+}
 .profile{
     background-image: url("../assets/profile.png");
     display: flex;
@@ -54,6 +57,15 @@ html * {
 
 .add-task-div{
     margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+.add-task-div input{
+    height: 40px;
+    margin-right: 125px;
+    margin-bottom: 20px;
+    border: 0.5px solid;
+    background-color: transparent;
 }
 .current-task-div, .log-task-div{
     width: 80%;
@@ -79,6 +91,8 @@ html * {
     border-bottom: 1px solid lightgrey ;
     margin: 5px;
     justify-content: space-between;
+    border-radius: 10px;
+    background-color: rgb(241, 237, 237) ;
 }
 .log-task h4{
     font-size: 20px;
@@ -98,6 +112,13 @@ html * {
     background-size: contain;
     background-image: url("../assets/start.svg");
     background-repeat: no-repeat;
+    cursor: pointer;
+}
+.view{
+    height: 30px;
+    width: 30px;
+    border: 0px;
+    background-image: url("../assets/View.svg");
     cursor: pointer;
 }
 .edit{
@@ -138,6 +159,11 @@ html * {
     font-weight: 300;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
+.current-log{
+    height: 110px;
+    display: grid;
+    align-items: center;
+}
 .add-task-current-log{
     border: 0px;
     background-color: #e7e7e7;
@@ -153,6 +179,7 @@ html * {
 .add-task-modal {
     display: none; 
     position: fixed;
+    justify-content: center;
     z-index: 1; 
     left: 0;
     top: 0;
@@ -166,12 +193,39 @@ html * {
   .add-task-modal-data{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 40%;
     height: 300px;
     align-content: stretch;
     align-items: center;
     justify-content: space-evenly;
     background-color: silver;
+    border-radius: 20px;
+  }
+  .view-task-modal-data{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 40%;
+    height: 600px;
+    align-content: stretch;
+    align-items: center;
+    justify-self: center;
+    justify-content: space-evenly;
+    background-color: silver;
+    border-radius: 20px;
+  }
+  .view-task-modal {
+    display: none; 
+    position: fixed;
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+    padding-top: 60px;
   }
   .edit-task-modal {
     display: none; 
@@ -204,7 +258,6 @@ html * {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-    cursor: pointer;
 }
 input {
 	height: 100px;
@@ -227,7 +280,4 @@ input {
 }
 .cancel{
     background-color:  #D3494E;
-}
-.import, .export, .logout{
-    cursor: pointer;
 }
